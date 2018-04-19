@@ -1,4 +1,4 @@
-function Invoke-WeatherUnderground {
+function get-WUforecast {
     <#
     .SYNOPSIS
     Call the Weather Underground API - Basic Weather Forecast/One Day
