@@ -21,7 +21,7 @@ One day forecast from Weather Underground from the Stratus level API key.
 
 ### EXAMPLE 1
 ```powershell
-Invoke-WeatherUnderground -apikey [parameter] -zip [parameter]
+Invoke-WeatherUnderground -apikey [string] -zip [string]
 ```
 
 ## PARAMETERS
