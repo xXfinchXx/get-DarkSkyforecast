@@ -4,7 +4,7 @@
         <View>
             <Name>Default</Name>
             <ViewSelectedBy>
-                <TypeName>EleadWeather.Question</TypeName>
+                <TypeName>WeatherUnderground.Question</TypeName>
             </ViewSelectedBy>
             <TableControl>
                 <TableHeaders>
@@ -53,7 +53,7 @@
         <View>
             <Name>Default</Name>
             <ViewSelectedBy>
-                <TypeName>EleadWeather.Answer</TypeName>
+                <TypeName>WeatherUnderground.Answer</TypeName>
             </ViewSelectedBy>
             <TableControl>
                 <TableHeaders>
