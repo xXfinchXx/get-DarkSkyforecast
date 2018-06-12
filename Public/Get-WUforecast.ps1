@@ -50,7 +50,7 @@ function Get-WUforecast {
         Write-Host "Last Updated:" -nonewline; Write-Host "" $weather.forecast.txt_forecast.date -f yellow;
         Write-Host "For Today:"  -NoNewline; Write-Host "" $weather.forecast.txt_forecast.forecastday.fcttext[0]
         Write-Host ""
-        IF ($currentcondition -match 'thuderstorm')
+        IF ($currentcondition -match 'thunderstorm')
             {	
         	    Write-Host "	    .--.   		" -f gray -nonewline;   Write-Host "$high		$humidity" -f white;
         	    Write-Host "	 .-(    ). 		" -f gray -nonewline;   Write-Host "$low		$precipitation" -f white;
