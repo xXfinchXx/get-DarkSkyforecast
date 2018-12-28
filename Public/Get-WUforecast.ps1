@@ -95,7 +95,7 @@ function Get-WUforecast {
         		Write-Host "	  (___.__)__)	" -f gray;			
         		Write-Host ""
         	}
-        ELSEIF ($currentcondition -match 'cloudy')
+        ELSEIF ($currentcondition -match 'cloudy|overcast')
         	{
         	    Write-Host "	    .--.   		" -f gray -NoNewline;Write-Host "$high		$humidity"
         	    Write-Host "	 .-(    ). 		" -f gray -NoNewline;Write-Host "$low		$precipitation"
