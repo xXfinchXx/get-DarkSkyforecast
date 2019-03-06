@@ -3,7 +3,7 @@ Module Name: DarkSkyWeather
 schema: 2.0.0
 ---
 
-# Get-WUforecast
+# Get-DarkSkyforecast
 
 ## SYNOPSIS
 Call the DarkSky API - Basic Weather Forecast/One Day
