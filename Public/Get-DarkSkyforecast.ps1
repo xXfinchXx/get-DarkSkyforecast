@@ -47,7 +47,7 @@ function Get-DarkSkyforecast {
     }
     Process{
         Write-Host ""
-        Write-Host "Current weather conditions for" $($location.city) + $($location.region);
+        Write-Host "Current weather conditions for $(if (!($location.city)){"City Unknown"}Else{$location.city}), $($location.region)";
         Write-Host "Last Updated:" -nonewline; Write-Host "" (Get-Date).DateTime -f yellow;
         Write-Host "For Today:"  -NoNewline; Write-Host "" $weather.daily.data[0].summary
         Write-Host ""
