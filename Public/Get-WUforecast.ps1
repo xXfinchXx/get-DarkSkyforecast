@@ -1,54 +1,55 @@
-function Get-WUforecast {
+function Get-DarkSkyforecast {
     <#
     .SYNOPSIS
-    Call the Weather Underground API - Basic Weather Forecast/One Day
+    Call the DarkSky API - Basic Weather Forecast/One Day
     
     .DESCRIPTION
-    One day forecast from Weather Underground from the Stratus level API key.
+    One day forecast from DarkSky from the Stratus level API key.
     
     .PARAMETER apikey
-    Must sign up for an API key from https://www.wunderground.com/weather/api
+    Must sign up for an API key from https://darksky.net/dev
     
     .PARAMETER Zip
     Zip Code for where you would like to see the weather.
     
     .EXAMPLE
-    Invoke-WeatherUnderground -apikey [parameter] -zip [parameter]
+    Get-DarkSkyforecast -apikey [parameter]
     #>
     param(
-        [string]$apikey,
-        [string]$Zip
+        [string]$apikey
     )
     Begin{
         IF ($APIKEY -eq $null)
             {
                 Write-Host ""
                 Write-Warning "You have not set your API Key!"
-                Write-Host "Please go to https://www.wunderground.com/weather/api to get your API key - it's free."
+                Write-Host "Please go to https://darksky.net/dev to get your API key - it's free."
                 Write-Host "Once you have your key, change the value in the $" -nonewline; Write-Host "API variable with your key and re-run this script."
                 Write-Host ""
             exit
             }
 
-        $location = Invoke-RestMethod -uri "http://api.wunderground.com/api/$($APIKEY)/geolookup/q/$($Zip).json"
-        $weather = Invoke-RestMethod -URI "http://api.wunderground.com/api/$($APIKEY)/forecast/q/$($location.location.state)/$($location.location.city).json"
-        $high = "Today's High: " + $weather.forecast.simpleforecast.forecastday[0].high.fahrenheit + "f"
-        $low = "Today's Low: " + $weather.forecast.simpleforecast.forecastday[0].low.fahrenheit + "f"
-        $humidity = "Humidity: " + $weather.forecast.simpleforecast.forecastday[0].avehumidity + "%"
-        $precipitation = If($weather.forecast.simpleforecast.forecastday[0].qpf_allday.in -match "0.00")
+        $ip = Invoke-RestMethod http://ipinfo.io/json | Select -exp ip
+
+        $location = Invoke-RestMethod -uri "extreme-ip-lookup.com/json/$($IP)"
+        $weather = Invoke-RestMethod -uri "https://api.darksky.net/forecast/$($APIKEY)/$($location.lat),$($location.lon)"
+        $high = "Today's High: " + $weather.daily.data[0].temperatureHigh + " f"
+        $low = "Today's Low: " + $weather.daily.data[0].temperaturelow + " f"
+        $humidity = "Humidity: " + $Weather.currently.humidity + "%"
+        $precipitation = If($weather.daily.data[0].precipIntensity -match "0.0000")
             {
                 "Precipitation: No Precipitation"
             } else {
-                "Precipitation:" + $weather.forecast.simpleforecast.forecastday[0].qpf_allday.in + "inches of rain"
+                "Precipitation: " + $weather.daily.data[0].precipIntensity + " inches of rain"
             }
-        $windSpeed = "Wind Speed: " + $weather.forecast.simpleforecast.forecastday[0].avewind.mph + " mp/h" + " - Direction: " + $weather.forecast.simpleforecast.forecastday[0].avewind.dir
-        $currentcondition = "Conditions:" + $weather.forecast.simpleforecast.forecastday[0].conditions
+        $windSpeed = "Wind Speed: " + $weather.currently.windspeed + " mp/h" + " - Gusts: " + $weather.currently.windGust + " mp/h"
+        $currentcondition = "Conditions:" + $weather.currently.summary
     }
     Process{
         Write-Host ""
-        Write-Host "Current weather conditions for"$($location.location.city) $($location.location.state);
-        Write-Host "Last Updated:" -nonewline; Write-Host "" $weather.forecast.txt_forecast.date -f yellow;
-        Write-Host "For Today:"  -NoNewline; Write-Host "" $weather.forecast.txt_forecast.forecastday.fcttext[0]
+        Write-Host "Current weather conditions for" $($location.city) + $($location.region);
+        Write-Host "Last Updated:" -nonewline; Write-Host "" (Get-Date).DateTime -f yellow;
+        Write-Host "For Today:"  -NoNewline; Write-Host "" $weather.daily.data[0].summary
         Write-Host ""
         IF ($currentcondition -match 'thunderstorm')
             {	
@@ -95,7 +96,7 @@ function Get-WUforecast {
         		Write-Host "	  (___.__)__)	" -f gray;			
         		Write-Host ""
         	}
-        ELSEIF ($currentcondition -match 'cloudy|overcast')
+        ELSEIF ($currentcondition -match 'cloudy|overcast|Foggy')
         	{
         	    Write-Host "	    .--.   		" -f gray -NoNewline;Write-Host "$high		$humidity"
         	    Write-Host "	 .-(    ). 		" -f gray -NoNewline;Write-Host "$low		$precipitation"
