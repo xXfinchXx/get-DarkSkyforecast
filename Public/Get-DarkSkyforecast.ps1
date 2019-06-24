@@ -113,5 +113,14 @@ function Get-DarkSkyforecast {
 		        Write-Host "	                 " -f gray -NoNewline;Write-Host "$windspeed" -f white;
 		        Write-Host ""
         }
+        ELSEIF ($currentcondition -match 'humid')
+        {
+            Write-Host "~~~~   \ | /   ~~~~~" -f Yellow -nonewline; Write-Host "$high		$humidity" -f white;
+            Write-Host "~~~~    .-.    ~~~~~" -f Yellow -nonewline; Write-Host "$low		$precipitation" -f white;
+            Write-Host "~~~ -- (   ) -- ~~~~" -f Yellow -nonewline; Write-Host "$Currentcondition" -f white;
+            Write-Host "~~~~    *-*    ~~~~~" -f Yellow -NoNewline; Write-Host "$windspeed" -f white;
+            Write-Host "~~~~   / | \   ~~~~~" -f yellow ; 
+            Write-Host ""
+        }
     }    
 }
