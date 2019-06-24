@@ -16,7 +16,8 @@ function Get-DarkSkyforecast {
     Get-DarkSkyforecast -apikey [parameter]
     #>
     param(
-        [string]$apikey
+        [string]$apikey,
+        [string]$zipcode
     )
     Begin{
         IF ($APIKEY -eq $null)
@@ -28,9 +29,7 @@ function Get-DarkSkyforecast {
                 Write-Host ""
             exit
             }
-
-        $ip = Invoke-RestMethod http://ipinfo.io/json | Select -exp ip
-
+        if ($zipcode){$location = Invoke-RestMethod -uri "https://www.zipcodeapi.com/rest/hJ14Z1EnG7D3l3tESrVHPVMW5jBPe1j0p3uCdrYdLniMlsywQXGA0EA4Jni1TeBO/info.json/$($ZipCode)/degrees"}else{$ip = Invoke-RestMethod http://ipinfo.io/json | Select -exp ip;$location = Invoke-RestMethod -uri "extreme-ip-lookup.com/json/$($IP)"}
         $location = Invoke-RestMethod -uri "extreme-ip-lookup.com/json/$($IP)"
         $weather = Invoke-RestMethod -uri "https://api.darksky.net/forecast/$($APIKEY)/$($location.lat),$($location.lon)"
         $high = "Today's High: " + $weather.daily.data[0].temperatureHigh + " f"
