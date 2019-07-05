@@ -29,7 +29,7 @@ function Get-DarkSkyforecast {
                 Write-Host ""
             exit
             }
-        if ($zipcode){$location = Invoke-RestMethod -uri "https://www.zipcodeapi.com/rest/hJ14Z1EnG7D3l3tESrVHPVMW5jBPe1j0p3uCdrYdLniMlsywQXGA0EA4Jni1TeBO/info.json/$($ZipCode)/degrees"}else{$ip = Invoke-RestMethod http://ipinfo.io/json | Select -exp ip;$location = Invoke-RestMethod -uri "extreme-ip-lookup.com/json/$($IP)"}
+        if ($zipcode){$location = Invoke-RestMethod -uri "https://www.zipcodeapi.com/rest/4ml1VcGGkdgAewCKcApWKqCCH6LLX0n4F8G27IIWI9ngRLamLvVU3wNIWACAQ4S7/info.json/$($ZipCode)/degrees"}else{$ip = Invoke-RestMethod http://ipinfo.io/json | Select -exp ip;$location = Invoke-RestMethod -uri "extreme-ip-lookup.com/json/$($IP)"}
         $location = Invoke-RestMethod -uri "extreme-ip-lookup.com/json/$($IP)"
         $weather = Invoke-RestMethod -uri "https://api.darksky.net/forecast/$($APIKEY)/$($location.lat),$($location.lon)"
         $high = "Today's High: " + $weather.daily.data[0].temperatureHigh + " f"
@@ -42,7 +42,7 @@ function Get-DarkSkyforecast {
                 "Precipitation: " + $weather.daily.data[0].precipIntensity + " inches of rain"
             }
         $windSpeed = "Wind Speed: " + $weather.currently.windspeed + " mp/h" + " - Gusts: " + $weather.currently.windGust + " mp/h"
-        $currentcondition = "Conditions:" + $weather.currently.summary
+        $currentcondition = "Conditions:" + $weather.currently.icon.Split('-')
     }
     Process{
         Write-Host ""
